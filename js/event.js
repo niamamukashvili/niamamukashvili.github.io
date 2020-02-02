@@ -1,3 +1,36 @@
+/**
+ *
+ * @param degPerSec
+ * @returns {function(...[*]=)}
+ */
+const autorotate = function (degPerSec) {
+    return function (planet) {
+        let lastTick = null;
+        let paused = false;
+        planet.plugins.autorotate = {
+            pause: function () {
+                paused = true;
+            },
+            resume: function () {
+                paused = false;
+            }
+        };
+        planet.onDraw(function () {
+            if (paused || !lastTick) {
+                lastTick = new Date();
+            } else {
+                const now = new Date();
+                const delta = now - lastTick;
+                const rotation = planet.projection.rotate();
+                rotation[0] += degPerSec * delta / 1000;
+                if (rotation[0] >= 180) rotation[0] -= 360;
+                planet.projection.rotate(rotation);
+                lastTick = now;
+            }
+        });
+    };
+};
+
 const canvas = document.getElementById('eventCanvas');
 
 const planet = planetaryjs.planet();
@@ -162,37 +195,4 @@ function autoscale(options) {
         });
     };
 }
-
-/**
- *
- * @param degPerSec
- * @returns {function(...[*]=)}
- */
-const autorotate = function (degPerSec) {
-    return function (planet) {
-        let lastTick = null;
-        let paused = false;
-        planet.plugins.autorotate = {
-            pause: function () {
-                paused = true;
-            },
-            resume: function () {
-                paused = false;
-            }
-        };
-        planet.onDraw(function () {
-            if (paused || !lastTick) {
-                lastTick = new Date();
-            } else {
-                const now = new Date();
-                const delta = now - lastTick;
-                const rotation = planet.projection.rotate();
-                rotation[0] += degPerSec * delta / 1000;
-                if (rotation[0] >= 180) rotation[0] -= 360;
-                planet.projection.rotate(rotation);
-                lastTick = now;
-            }
-        });
-    };
-};
 

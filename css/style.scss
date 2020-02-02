@@ -1,0 +1,29 @@
+@import "languages", "semantic", "planetaryjs", "prism";
+
+body {
+  background-color: rgb(0, 26, 34);
+  background: url('/img/sky.jpg');
+  color: white;
+}
+
+canvas {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0px;
+  cursor: move;
+}
+
+#controls {
+  position: absolute;
+  width: 400px;
+  bottom: 5px;
+  left: 50%;
+  margin-left: -200px;
+  text-align: center;
+}
+
+input[type=range] {
+  width: 400px;
+}

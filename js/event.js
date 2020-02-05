@@ -1,3 +1,88 @@
+/**
+ *
+ * @param options
+ * @returns {function(...[*]=)}
+ */
+function autocenter(options) {
+    options = options || {};
+    let needsCentering = false;
+    let globe = null;
+
+    const resize = function () {
+        const width = window.innerWidth + (options.extraWidth || 0);
+        const height = window.innerHeight + (options.extraHeight || 0);
+        globe.canvas.width = width;
+        globe.canvas.height = height;
+        globe.projection.translate([width / 2, height / 2]);
+    };
+
+    return function (planet) {
+        globe = planet;
+        planet.onInit(function () {
+            needsCentering = true;
+            d3.select(window).on('resize', function () {
+                needsCentering = true;
+            });
+        });
+
+        planet.onDraw(function () {
+            if (needsCentering) {
+                resize();
+                needsCentering = false;
+            }
+        });
+    };
+}
+
+/**
+ *
+ * @param options
+ * @returns {function(...[*]=)}
+ */
+function autoscale(options) {
+    options = options || {};
+    return function (planet) {
+        planet.onInit(function () {
+            const width = window.innerWidth + (options.extraWidth || 0);
+            const height = window.innerHeight + (options.extraHeight || 0);
+            planet.projection.scale(Math.min(width, height) / 2);
+        });
+    };
+}
+
+/**
+ *
+ * @param degPerSec
+ * @returns {function(...[*]=)}
+ */
+const autorotate = function (degPerSec) {
+    return function (planet) {
+        let lastTick = null;
+        let paused = false;
+        planet.plugins.autorotate = {
+            pause: function () {
+                paused = true;
+            },
+            resume: function () {
+                paused = false;
+            }
+        };
+        planet.onDraw(function () {
+            if (paused || !lastTick) {
+                lastTick = new Date();
+            } else {
+                const now = new Date();
+                const delta = now - lastTick;
+                const rotation = planet.projection.rotate();
+                rotation[0] += degPerSec * delta / 1000;
+                if (rotation[0] >= 180) rotation[0] -= 360;
+                planet.projection.rotate(rotation);
+                lastTick = now;
+            }
+        });
+    };
+};
+
 const canvas = document.getElementById('eventCanvas');
 
 const planet = planetaryjs.planet();
@@ -109,90 +194,3 @@ d3.json('/json/events.json', function (err, data) {
         lastTick = now;
     });
 });
-
-
-/**
- *
- * @param options
- * @returns {function(...[*]=)}
- */
-function autocenter(options) {
-    options = options || {};
-    let needsCentering = false;
-    let globe = null;
-
-    const resize = function () {
-        const width = window.innerWidth + (options.extraWidth || 0);
-        const height = window.innerHeight + (options.extraHeight || 0);
-        globe.canvas.width = width;
-        globe.canvas.height = height;
-        globe.projection.translate([width / 2, height / 2]);
-    };
-
-    return function (planet) {
-        globe = planet;
-        planet.onInit(function () {
-            needsCentering = true;
-            d3.select(window).on('resize', function () {
-                needsCentering = true;
-            });
-        });
-
-        planet.onDraw(function () {
-            if (needsCentering) {
-                resize();
-                needsCentering = false;
-            }
-        });
-    };
-}
-
-/**
- *
- * @param options
- * @returns {function(...[*]=)}
- */
-function autoscale(options) {
-    options = options || {};
-    return function (planet) {
-        planet.onInit(function () {
-            const width = window.innerWidth + (options.extraWidth || 0);
-            const height = window.innerHeight + (options.extraHeight || 0);
-            planet.projection.scale(Math.min(width, height) / 2);
-        });
-    };
-}
-
-/**
- *
- * @param degPerSec
- * @returns {function(...[*]=)}
- */
-const autorotate = function (degPerSec) {
-    return function (planet) {
-        let lastTick = null;
-        let paused = false;
-        planet.plugins.autorotate = {
-            pause: function () {
-                paused = true;
-            },
-            resume: function () {
-                paused = false;
-            }
-        };
-        planet.onDraw(function () {
-            if (paused || !lastTick) {
-                lastTick = new Date();
-            } else {
-                const now = new Date();
-                const delta = now - lastTick;
-                const rotation = planet.projection.rotate();
-                rotation[0] += degPerSec * delta / 1000;
-                if (rotation[0] >= 180) rotation[0] -= 360;
-                planet.projection.rotate(rotation);
-                lastTick = now;
-            }
-        });
-    };
-};
-

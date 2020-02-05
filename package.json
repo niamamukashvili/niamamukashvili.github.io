@@ -4,5 +4,15 @@
   "main": "index.js",
   "repository": "https://github.com/niamamukashvili/niamamukashvili.github.io.git",
   "author": "niamamukashvili",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "moment": "^2.24.0",
+    "topojson": "1.4.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.8.4"
+  }
 }

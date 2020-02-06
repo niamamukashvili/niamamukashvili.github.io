@@ -92,15 +92,16 @@ planet.loadPlugin(autocenter({extraHeight: -120}));
 planet.loadPlugin(autoscale({extraHeight: -120}));
 planet.loadPlugin(planetaryjs.plugins.earth({
     topojson: {file: '/json/continents.json'},
-    oceans: {fill: '#001320'},
-    land: {fill: '#06304e'},
-    borders: {stroke: '#001320'}
+    oceans: {fill: '#09619E'},
+    land: {fill: '#5A907E'},
+    borders: {stroke: '#FFE700 '}
 }));
 planet.loadPlugin(planetaryjs.plugins.pings());
 planet.loadPlugin(planetaryjs.plugins.zoom({
     scaleExtent: [50, 5000]
 }));
 planet.loadPlugin(planetaryjs.plugins.drag({
+    
     onDragStart: function () {
         this.plugins.autorotate.pause();
     },
@@ -114,8 +115,8 @@ planet.draw(canvas);
 
 const colors = d3.scale.pow()
     .exponent(3)
-    .domain([2, 4, 6, 8, 10])
-    .range(['white', 'yellow', 'orange', 'red', 'purple']);
+    .domain([1, 2])
+    .range(['red', 'blue',]);
 const angles = d3.scale.pow()
     .exponent(3)
     .domain([2.5, 10])

@@ -94,7 +94,7 @@ planet.loadPlugin(planetaryjs.plugins.earth({
     topojson: {file: '/json/continents.json'},
     oceans: {fill: '#022943 '},
     land: {fill: '#5A907E'},
-    borders: {stroke: '#FFE700 '}
+    borders: {stroke: '#AC7301 '}
 }));
 planet.loadPlugin(planetaryjs.plugins.pings());
 planet.loadPlugin(planetaryjs.plugins.zoom({

@@ -116,7 +116,7 @@ planet.draw(canvas);
 const colors = d3.scale.pow()
     .exponent(3)
     .domain([3, 2])
-    .range(['blue', 'red',]);
+    .range(['red', 'red',]);
 const angles = d3.scale.pow()
     .exponent(3)
     .domain([2.5, 10])

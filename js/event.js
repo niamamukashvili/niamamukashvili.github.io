@@ -92,8 +92,8 @@ planet.loadPlugin(autocenter({extraHeight: -120}));
 planet.loadPlugin(autoscale({extraHeight: -120}));
 planet.loadPlugin(planetaryjs.plugins.earth({
     topojson: {file: '/json/continents.json'},
-    oceans: {fill: '#0C0149 '},
-    land: {fill: '#7D75AD'},
+    oceans: {fill: '#015C9C '},
+    land: {fill: '#5DABE1 '},
     borders: {stroke: '#ABEEFB '}
 }));
 planet.loadPlugin(planetaryjs.plugins.pings());

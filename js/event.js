@@ -132,8 +132,8 @@ d3.json('/json/events.json', function (err, data) {
         return;
     }
   for (let i = 0; i<data.length;i++){
-      data[i].date =  Date.parse(data[i].date);
-      console.log(data[i].date);
+      data[i].time =  Date.parse(data[i].time);
+      console.log(data[i].time);
     }
     const start = parseInt(data[0].time, 10);
     const end = parseInt(data[data.length - 1].time, 10);

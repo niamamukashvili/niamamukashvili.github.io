@@ -6,7 +6,7 @@
   "author": "niamamukashvili",
   "license": "MIT",
   "dependencies": {
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "tone": "^13.8.25",
     "topojson": "1.4.5"
   },
